@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  UPI
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(MEMBER)
+  country   String?  // For Bonus: India, America, etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  orders    Order[]
+}
+
+model Restaurant {
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  country   String     // For Bonus: India, America, etc.
+  cuisine   String?
+  image     String?
+  menuItems MenuItem[]
+  orders    Order[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model MenuItem {
+  id           String      @id @default(uuid())
+  name         String
+  description  String?
+  price        Float
+  dietaryType  DietaryType @default(VEG)
+  image        String?
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+enum DietaryType {
+  VEG
+  NON_VEG
+  EGG
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  restaurantId  String
+  restaurant    Restaurant  @relation(fields: [restaurantId], references: [id])
+  status        OrderStatus @default(PENDING)
+  address       String?     // Address is added when order is placed
+  totalAmount   Float
+  items         OrderItem[]
+  payment       Payment?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int
+  price      Float    // Snapshot of price at time of order
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  orderId   String        @unique
+  order     Order         @relation(fields: [orderId], references: [id])
+  method    PaymentMethod
+  status    PaymentStatus @default(PENDING)
+  amount    Float
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
