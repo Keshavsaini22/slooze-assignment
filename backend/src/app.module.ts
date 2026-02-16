@@ -6,6 +6,9 @@ import { RestaurantModule } from './features/restaurants/restaurant.module';
 import { OrderModule } from './features/orders/order.module';
 import { PaymentModule } from './features/payments/payment.module';
 
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
 @Module({
   imports: [
     DatabaseModule,
@@ -14,7 +17,7 @@ import { PaymentModule } from './features/payments/payment.module';
     OrderModule,
     PaymentModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
