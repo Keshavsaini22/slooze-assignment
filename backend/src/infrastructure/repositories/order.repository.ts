@@ -4,7 +4,7 @@ import { Order, Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrderRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.OrderCreateInput): Promise<Order> {
     return this.prisma.order.create({

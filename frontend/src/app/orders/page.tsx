@@ -91,7 +91,7 @@ export default function OrdersPage() {
                                         color={
                                             order.status === 'PENDING' ? 'warning' :
                                                 order.status === 'CANCELLED' ? 'error' :
-                                                    order.status === 'CONFIRMED' ? 'info' : 'success'
+                                                    'success'
                                         }
                                         size="small"
                                         sx={{ mb: 1 }}

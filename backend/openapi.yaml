@@ -142,6 +142,52 @@ components:
         amount:
           type: number
 
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        totalAmount:
+          type: number
+
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: string
+        menuItemId:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+        restaurantId:
+          type: string
+        restaurantName:
+          type: string
+        image:
+          type: string
+        dietaryType:
+          type: string
+
+    AddCartItemDto:
+      type: object
+      properties:
+        menuItemId:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+        - menuItemId
+        - quantity
+
 paths:
   /:
     get:
@@ -300,6 +346,66 @@ paths:
                       $ref: '#/components/schemas/MenuItem'
                   meta:
                     type: object
+
+  /cart:
+    get:
+      summary: Get current user cart
+      tags:
+        - Cart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    delete:
+      summary: Clear cart
+      tags:
+        - Cart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Cart cleared
+
+  /cart/items:
+    post:
+      summary: Add item to cart
+      tags:
+        - Cart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCartItemDto'
+      responses:
+        '201':
+          description: Item added
+        '403':
+          description: Forbidden (Country mismatch)
+
+  /cart/items/{menuItemId}:
+    delete:
+      summary: Remove item from cart
+      tags:
+        - Cart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: menuItemId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Item removed
 
   /orders:
     post:

@@ -119,7 +119,11 @@ export default function OrderDetailPage() {
                 <Typography variant="h4">Order #{order.id.slice(0, 8)}</Typography>
                 <Chip
                     label={order.status}
-                    color={order.status === 'PENDING' ? 'warning' : 'success'}
+                    color={
+                        order.status === 'PENDING' ? 'warning' :
+                            order.status === 'CANCELLED' ? 'error' :
+                                'success'
+                    }
                     size="medium"
                 />
             </Box>

@@ -45,6 +45,7 @@ model User {
   updatedAt DateTime @updatedAt
   
   orders    Order[]
+  cart      Cart?
 }
 
 model Restaurant {
@@ -70,6 +71,7 @@ model MenuItem {
   restaurantId String
   restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
   orderItems   OrderItem[]
+  cartItems    CartItem[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -78,6 +80,24 @@ enum DietaryType {
   VEG
   NON_VEG
   EGG
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id         String   @id @default(uuid())
+  cartId     String
+  cart       Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int
 }
 
 model Order {

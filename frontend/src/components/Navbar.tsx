@@ -27,46 +27,79 @@ export default function Navbar() {
     const totalItems = items.length;
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid #f0f0f0', backgroundColor: 'background.paper' }}>
+            <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
+                <Box display="flex" alignItems="center">
+                    <Typography
+                        variant="h5"
+                        component="div"
+                        sx={{
+                            fontWeight: 800,
+                            color: 'primary.main',
+                            letterSpacing: '-0.5px',
+                            cursor: 'pointer'
+                        }}
+                    >
                         <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            Slooze Food
+                            Slooze<span style={{ color: '#212121' }}>Food</span>
                         </Link>
                     </Typography>
+                </Box>
 
-                    {user && (
+                <Box display="flex" alignItems="center" gap={1}>
+                    {user ? (
                         <>
-                            <Typography variant="subtitle1" sx={{ mr: 2 }}>
-                                Hello, {user.email} ({user.role})
-                            </Typography>
+                            <Box sx={{ mr: 2, display: { xs: 'none', md: 'block' }, textAlign: 'right' }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                    {user.email}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                    {user.role}
+                                </Typography>
+                            </Box>
 
-                            <Button color="inherit" onClick={() => router.push('/orders')} sx={{ mr: 2 }}>
-                                My Orders
+                            <Button
+                                color="inherit"
+                                onClick={() => router.push('/orders')}
+                                sx={{ borderRadius: 2 }}
+                            >
+                                Orders
                             </Button>
 
                             <IconButton
                                 size="large"
                                 aria-label="show cart items"
-                                color="inherit"
                                 onClick={() => router.push('/cart')}
-                                sx={{ mr: 2 }}
+                                sx={{ color: 'text.primary' }}
                             >
-                                <Badge badgeContent={totalItems} color="error">
+                                <Badge badgeContent={totalItems} color="primary">
                                     <ShoppingCartIcon />
                                 </Badge>
                             </IconButton>
 
-                            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={handleLogout}
+                                sx={{ borderRadius: 50, px: 3, ml: 1 }}
+                            >
+                                Logout
+                            </Button>
                         </>
+                    ) : (
+                        !loading && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => router.push('/login')}
+                                sx={{ px: 4 }}
+                            >
+                                Login
+                            </Button>
+                        )
                     )}
-
-                    {!user && !loading && (
-                        <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
-                    )}
-                </Toolbar>
-            </AppBar>
-        </Box>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 }

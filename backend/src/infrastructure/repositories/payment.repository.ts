@@ -4,7 +4,7 @@ import { Payment, PaymentMethod, PaymentStatus } from '@prisma/client';
 
 @Injectable()
 export class PaymentRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async upsert(
     orderId: string,

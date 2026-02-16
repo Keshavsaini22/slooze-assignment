@@ -5,6 +5,7 @@ import { AuthModule } from './features/auth/auth.module';
 import { RestaurantModule } from './features/restaurants/restaurant.module';
 import { OrderModule } from './features/orders/order.module';
 import { PaymentModule } from './features/payments/payment.module';
+import { CartModule } from './features/cart/cart.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,8 +17,9 @@ import { AppService } from './app.service';
     RestaurantModule,
     OrderModule,
     PaymentModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
