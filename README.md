@@ -237,3 +237,19 @@ Frontend will be available at:
 * Docker Compose <a name="tech-stack"></a>
 
 ---
+
+## Test Accounts
+
+The database is seeded with the following users. The password for all accounts is `password123`.
+
+| Name            | Email                       | Role    | Country |
+| --------------- | --------------------------- | ------- | ------- |
+| Nick Fury       | nick.fury@slooze.xyz        | ADMIN   | America |
+| Captain Marvel  | captain.marvel@slooze.xyz   | MANAGER | India   |
+| Captain America | captain.america@slooze.xyz  | MANAGER | America |
+| Thanos          | thanos@slooze.xyz           | MEMBER  | India   |
+| Thor            | thor@slooze.xyz             | MEMBER  | India   |
+| Travis          | travis@slooze.xyz           | MEMBER  | America |
+
+---
+
