@@ -19,7 +19,7 @@ export interface CartItem {
 
 interface CartContextType {
     items: CartItem[];
-    addToCart: (item: CartItem) => ReturnType<typeof Promise<boolean>>;
+    addToCart: (item: CartItem) => Promise<boolean>;
     removeFromCart: (menuItemId: string) => void;
     clearCart: () => void;
     total: number;
@@ -82,7 +82,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             return true; // Return success (or false if replaced, but here we handled replacement explicitly)
         } catch (error) {
             console.error('Failed to add item to cart:', error);
-            alert('Failed to add item. ' + (error.response?.data?.message || ''));
+            alert('Failed to add item. ' + ((error as any).response?.data?.message || ''));
             return false;
         }
     };
